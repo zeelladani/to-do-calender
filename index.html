@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Calendar | Organize Your Day</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/calendar-16.png">
+</head>
+<body class="dark-theme">
+    <!-- Auth Container -->
+    <div id="auth-container" class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>To-Do List Task Calendar</h1>
+            </div>
+            <div class="auth-tabs">
+                <button id="login-tab" class="auth-tab active">Login</button>
+                <button id="signup-tab" class="auth-tab">Sign Up</button>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="login-form" class="auth-form">
+                <h2>Welcome Back</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group password-group">
+                    <label for="login-password">Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                        <span class="password-toggle">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <p class="forgot-password" id="forgot-password">Forgot Password?</p>
+                <div id="login-success" class="auth-success"></div>
+                <div id="login-error" class="auth-error"></div>
+            </form>
+            
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group password-group">
+                    <label for="signup-password">Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="signup-password" placeholder="Create a password" required>
+                        <span class="password-toggle">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group password-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <div class="password-input-container">
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password" required>
+                        <span class="password-toggle">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </span>
+                    </div>
+                </div>
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+                <div id="signup-success" class="auth-success"></div>
+                <div id="signup-error" class="auth-error"></div>
+            </form>
+            
+            <!-- Reset Password Form -->
+            <form id="reset-form" class="auth-form" style="display: none;">
+                <h2>Reset Password</h2>
+                <p class="reset-info">Enter your email to receive a password reset link.</p>
+                <div class="form-group">
+                    <label for="reset-email">Email</label>
+                    <input type="email" id="reset-email" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-paper-plane"></i> Send Reset Link
+                </button>
+                <p class="back-to-login" id="back-to-login">
+                    <i class="fas fa-arrow-left"></i> Back to Login
+                </p>
+                <div id="reset-message" class="auth-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- App Container (initially hidden) -->
+    <div id="app-container" class="container" style="display: none;">
+        <header>
+            <div class="header-left">
+                <h1>To-Do List Task Calendar</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info-wrapper">
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="user-email"></span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="theme-toggle" title="Toggle theme">
+                        <i id="theme-icon" class="fas fa-moon"></i>
+                    </div>
+                    <button id="logout-btn" class="logout-btn" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i> 
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prev-month" class="month-nav" title="Previous month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2 id="month-year">June 2025</h2>
+                    <button id="next-month" class="month-nav" title="Next month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="days" id="calendar-days"></div>
+            </div>
+            
+            <div class="tasks-container">
+                <div class="date-display">
+                    <h2 id="selected-date">June 19, 2025</h2>
+                </div>
+                
+                <div class="task-input">
+                    <input type="text" id="new-task" placeholder="Add a new task for this day...">
+                    <button id="add-task" title="Add task">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                
+                <div class="task-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="active">Active</button>
+                    <button class="filter-btn" data-filter="completed">Completed</button>
+                    <button id="clear-completed" title="Clear completed tasks">Clear Completed</button>
+                </div>
+                
+                <ul id="task-list" class="task-list"></ul>
+            </div>
+        </main>
+        
+        <!-- Common Tasks Section -->
+        <section class="common-tasks-section">
+            <div class="section-divider">
+                <span>Common Tasks</span>
+            </div>
+            
+            <div class="common-tasks-container">
+                <div class="common-tasks-header">
+                    <h2>Common Tasks</h2>
+                    <div class="common-tasks-subtitle">Tasks that appear every day</div>
+                </div>
+                
+                <div class="task-input">
+                    <input type="text" id="new-common-task" placeholder="Add a new common task...">
+                    <button id="add-common-task" title="Add common task">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                
+                <div class="task-filters">
+                    <button class="common-filter-btn active" data-filter="all">All</button>
+                    <button class="common-filter-btn" data-filter="active">Active</button>
+                    <button class="common-filter-btn" data-filter="completed">Completed</button>
+                    <button id="clear-common-completed" title="Clear completed common tasks">Clear Completed</button>
+                </div>
+                
+                <ul id="common-task-list" class="task-list"></ul>
+            </div>
+        </section>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notification-toast" class="notification-toast">
+        <div class="notification-content">
+            <i id="notification-icon" class="fas"></i>
+            <span id="notification-message"></span>
+        </div>
+        <button id="close-notification" class="close-notification" title="Close notification">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
