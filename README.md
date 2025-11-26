@@ -1,1 +1,1 @@
-[VISIT]([url](https://cal.zeelladani.in/))
+[visit]([https://cal.zeelladani.in/])
